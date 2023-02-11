@@ -5,12 +5,14 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 
 import com.example.starter.security.AuthEntryPointJwt;
 import com.example.starter.security.AuthTokenFilter;
+
 import com.example.starter.security.JwtUtils;
 import com.example.starter.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -68,39 +70,41 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Order(0)
+    SecurityFilterChain resources(HttpSecurity http) throws Exception {
+        String[] permittedResources = new String[] {
+            "/", "/static/**","/css/**","/js/**","/webfonts/**", "/webjars/**",
+            "/index.html","/favicon.ico", "/error",
+            "/v3/**","/swagger-ui.html","/swagger-ui/**"
+        };
+        http
+            .securityMatcher(permittedResources)
+            .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
+            .requestCache().disable()
+            .securityContext().disable()
+            .sessionManagement().disable();
+
+        return http.build();
+    }
+    @Bean
+    @Order(1)
+    public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
             .cors().and()  // uncomment this line with CorsConfigurationSource, comment this line with CorsFilter
-            // for h2-console
             .headers().frameOptions().disable().and()
             .csrf(AbstractHttpConfigurer::disable)
-            //.csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+            .securityMatcher("/api/**")
             .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(OPTIONS).permitAll()
-                .requestMatchers(antMatcher(HttpMethod.POST, "/api/auth/**")).permitAll()
-                .requestMatchers(antMatcher(HttpMethod.POST, "/api/test/**")).permitAll()
-                .requestMatchers(antMatcher(HttpMethod.GET, "/api/auth/**")).permitAll()
-                .requestMatchers(antMatcher(HttpMethod.GET, "/api/test/**")).permitAll()
+                .requestMatchers(antMatcher("/api/auth/**")).permitAll()
+                .requestMatchers(antMatcher("/api/test/**")).permitAll()
                 .requestMatchers(antMatcher(HttpMethod.GET, "/actuator/**")).permitAll()
                 .requestMatchers(
-                    antMatcher(HttpMethod.GET, "/error"),
-                    antMatcher( "/h2-console/**"),
-                    antMatcher("/index.html"),
-                    antMatcher(HttpMethod.GET, "/favicon.ico"),
-                    // regexMatcher(".*\\?x=y")).hasRole("SPECIAL"),
-                    // antMatcher(HttpMethod.POST, "/user/**")).hasRole("ADMIN"),
-                    antMatcher(HttpMethod.GET, "/v3/**"),
-                    antMatcher(HttpMethod.GET, "/swagger-ui.html"),
-                    antMatcher(HttpMethod.GET, "/swagger-ui/**")).permitAll()
-                .anyRequest()
-                .authenticated()
-            );
-        http.headers(headers -> headers.frameOptions().sameOrigin());
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+                    antMatcher( "/h2-console/**")).permitAll()
+            ).authenticationProvider(authenticationProvider())
+            .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

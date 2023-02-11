@@ -1,6 +1,7 @@
 package com.example.starter.security;
 
 import com.example.starter.service.UserDetailsImpl;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -10,6 +11,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
@@ -18,7 +20,7 @@ import org.springframework.web.util.WebUtils;
 
 @Component
 @Slf4j
-public class JwtUtils {
+public class JwtUtils  {
 
     @Value("${app.jwtSecret}")
     private String jwtSecret;
@@ -39,7 +41,7 @@ public class JwtUtils {
     }
 
     public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
-        String jwt = generateTokenFromUsername(userPrincipal.getUsername());
+        String jwt = generateTokenFromUsername(userPrincipal);
         return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     }
 
@@ -70,9 +72,13 @@ public class JwtUtils {
         return false;
     }
 
-    public String generateTokenFromUsername(String username) {
+    public String generateTokenFromUsername(UserDetailsImpl userDetails) {
+        Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
+        claims.put("roles", userDetails.getAuthorities());
         return Jwts.builder()
-            .setSubject(username)
+            .setId(UUID.randomUUID().toString())
+            .setSubject(userDetails.getUsername())
+            .setClaims(claims)
             .setIssuedAt(new Date())
             .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
