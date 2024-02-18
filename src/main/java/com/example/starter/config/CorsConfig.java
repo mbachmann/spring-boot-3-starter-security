@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * CORS configuration: CORS must be processed before Spring Security because the pre-flight request will not contain any cookies. Therefore, the request would determine the user is not authenticated
@@ -28,7 +29,7 @@ public class CorsConfig {
     @Value("${endpoints.web.cors.allowed-headers}")
     private List<String> allowedHeaders;
 
-    @Bean
+    /* @Bean
     CorsConfigurationSource corsConfigurationSource()  {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(allowedOrigins);
@@ -38,9 +39,9 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration(pathMappings, configuration);
         return source;
-    }
+    } */
 
-    /*@Bean
+    @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
@@ -48,7 +49,7 @@ public class CorsConfig {
         config.setAllowedOrigins(allowedOrigins);
         config.setAllowedMethods(allowedMethods);
         config.setAllowedHeaders(allowedHeaders);
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration(pathMappings, config);
         return new CorsFilter(source);
-    }*/
+    }
 }

@@ -21,6 +21,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer.FrameOptionsConfig;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SecurityContextConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,22 +83,22 @@ public class WebSecurityConfig {
         http
             .securityMatcher(permittedResources)
             .authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
-            .requestCache().disable()
-            .securityContext().disable()
-            .sessionManagement().disable();
+            .requestCache(RequestCacheConfigurer::disable)
+            .securityContext(SecurityContextConfigurer::disable)
+            .sessionManagement(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
+
     @Bean
     @Order(1)
     public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors().and()  // uncomment this line with CorsConfigurationSource, comment this line with CorsFilter
-            .headers().frameOptions().disable().and()
+            .headers(headers -> headers.frameOptions(FrameOptionsConfig::sameOrigin))
             .csrf(AbstractHttpConfigurer::disable)
             .securityMatcher("/api/**")
-            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(unauthorizedHandler))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((requests) -> requests
                 .requestMatchers(OPTIONS).permitAll()
                 .requestMatchers(antMatcher("/api/auth/**")).permitAll()
