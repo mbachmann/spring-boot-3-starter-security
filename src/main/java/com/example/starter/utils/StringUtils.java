@@ -11,9 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
-public class StringUtils {
+public final class StringUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StringUtils.class.getName());
+
+    private StringUtils() {
+    }
+
     public static String convertStringArrayToString(String[] strArr, String delimiter) {
         StringBuilder sb = new StringBuilder();
         for (String str : strArr)
