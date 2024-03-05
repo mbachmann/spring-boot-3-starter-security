@@ -77,7 +77,7 @@ public class WebSecurityConfig {
     SecurityFilterChain resources(HttpSecurity http) throws Exception {
         String[] permittedResources = new String[] {
             "/", "/static/**","/css/**","/js/**","/webfonts/**", "/webjars/**",
-            "/index.html","/favicon.ico", "/error",
+            "/index.html","/favicon.ico", "/error", "/actuator/**",
             "/v3/**","/swagger-ui.html","/swagger-ui/**"
         };
         http
