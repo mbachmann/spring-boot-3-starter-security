@@ -14,3 +14,101 @@ For JWT – Token based Authentication with Rest API, we’re gonna call 2 endpo
 - POST `api/auth/signup` for User Registration
 - POST `api/auth/signin` for User Login
 - POST `api/auth/signout` for User Logout
+
+
+## Creating and deploying a container
+
+### Build run and publish the todo-app project
+
+Use a Mac, Linux, WSL2 or git bash console.
+
+<br/>
+
+```
+git clone https://github.com/mbachmann/spring-boot-3-starter-security
+cd spring-boot-3-starter-security
+./mvnw clean package
+java -jar target/starter-*.jar
+```
+
+<br/>
+
+###  Create a Docker Container, Run and Publish to Docker
+
+Create first a jar with the build instruction. To create a container. Replace **uportal** with your **dockerhub id**.
+
+<br/>
+
+```
+
+$  docker build -t uportal/spring-boot-3-starter-security  .
+$  docker run -p 8080:8080 --rm -it  -e ACTIVE_PROFILES=dev,h2 uportal/spring-boot-3-starter-security 
+```
+
+<br/>
+
+_Ctrl c_ will stop and delete the container.
+
+<br/>
+
+Replace **uportal** with your **dockerhub id**.
+
+<br/>
+
+```
+$  docker login
+$  docker login --username uportal --password 
+$  docker push uportal/spring-boot-3-starter-security
+```
+<br/>
+
+
+Alternative way for login:
+
+```
+cat ~/.key/my_password.txt | docker login --username uportal --password-stdin
+```
+
+Login to deployment platform with a container infrastructure:
+
+<br/>
+
+Replace **uportal** with your **dockerhub id**.
+
+<br/>
+
+```
+$  docker pull uportal/todo-app
+```
+
+<br/>
+
+###  docker-compose
+
+Start the files with:
+
+<br/>
+
+Start with log output in the console:
+
+```
+$  docker compose -f docker-compose-h2.yml up
+```
+
+<br/>
+
+Start in detached mode
+
+```
+$  docker compose -f docker-compose-h2.yml up -d
+```
+
+<br/>
+
+Delete containers:
+
+```
+$  docker-compose -f docker-compose-h2.yml rm
+```
+
+<br/>
