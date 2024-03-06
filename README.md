@@ -42,6 +42,9 @@ Create first a jar with the build instruction. To create a container. Replace **
 ```
 
 $  docker build -t uportal/spring-boot-3-starter-security  .
+$  docker buildx build --platform linux/amd64 -t uportal/spring-boot-3-starter-security -f Dockerfile .
+
+
 $  docker run -p 8080:8080 --rm -it  -e ACTIVE_PROFILES=dev,h2 uportal/spring-boot-3-starter-security 
 ```
 
@@ -93,6 +96,7 @@ Start with log output in the console:
 
 ```
 $  docker compose -f docker-compose-h2.yml up
+$  docker compose -f docker-compose-postgres.yml up
 ```
 
 <br/>
@@ -101,6 +105,7 @@ Start in detached mode
 
 ```
 $  docker compose -f docker-compose-h2.yml up -d
+$  docker compose -f docker-compose-postgres.yml up -d
 ```
 
 <br/>
@@ -109,6 +114,7 @@ Delete containers:
 
 ```
 $  docker-compose -f docker-compose-h2.yml rm
+$  docker-compose -f docker-compose-postgres.yml rm
 ```
 
 <br/>

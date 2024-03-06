@@ -16,6 +16,7 @@ services:
       APP_DB_NAME: chall-backend
       APP_DB_USERNAME: chall-user
       APP_DB_PASSWORD: someRandomBullshit
+      APP_DB_SCHEMA: pipeline
       ALLOWED_ORIGINS: http://localhost:4200, http://localhost:4100, http://localhost:8080
     ports:
       - 8080:8080

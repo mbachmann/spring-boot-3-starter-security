@@ -30,6 +30,10 @@ public class StarterApplication {
 
         String openApiInfo="";
         String h2ConsoleInfo="";
+        String actuatorInfo="" +
+                appUrl + "/actuator/info"  + System.lineSeparator() +
+                appUrl + "/actuator/health"  + System.lineSeparator() +
+                "";
         if (hasDevProfile) {
             openApiInfo = "" +
                 appUrl + swaggerUrl + System.lineSeparator() +
@@ -38,15 +42,13 @@ public class StarterApplication {
                 "";
         }
         if (hasH2Database) {
-            h2ConsoleInfo= "http://localhost:8080/h2-console  " + "" +
+            h2ConsoleInfo= appUrl + "/h2-console  " + "" +
                 "-> mit Generic H2 (Embedded), org.h2.Driver, jdbc:h2:mem:testdb und sa \n";
         }
-        System.out.println("\n\nApplication [" + applicationName + "] - Enter in Browser:\nhttp://localhost:8080 \n" +
+        System.out.println("\n\nApplication [" + applicationName + "] - Enter in Browser:\n" + appUrl + "\n" +
             openApiInfo +
             h2ConsoleInfo + "\n" +
+            actuatorInfo + "\n" +
             "Active Profiles: " + Arrays.toString(env.getActiveProfiles()) + "\n\n");
     }
-
-
-
 }

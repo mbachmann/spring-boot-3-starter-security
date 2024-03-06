@@ -15,9 +15,12 @@
     <name>starter</name>
     <description>starter</description>
     <properties>
+        <spring-boot.version>${project.parent.version}</spring-boot.version>
         <java.version>17</java.version>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd-HH:mm</maven.build.timestamp.format>
+        <springdoc.version>2.3.0</springdoc.version>
+        <mysql.driver.version>8.0.33</mysql.driver.version>
     </properties>
     <dependencies>
         <dependency>
@@ -56,6 +59,11 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -78,21 +86,22 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <version>${mysql.driver.version}</version>
         </dependency>
 
         <!--https://springdoc.org/v2/#Introduction-->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.0.2</version>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-common</artifactId>
-            <version>2.0.2</version>
+            <version>${springdoc.version}</version>
         </dependency>
+
 
         <dependency>
             <groupId>com.oracle.database.jdbc</groupId>
