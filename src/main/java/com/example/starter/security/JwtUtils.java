@@ -45,6 +45,11 @@ public class JwtUtils  {
         return ResponseCookie.from(jwtCookie, jwt).path("/api").maxAge(24 * 60 * 60).httpOnly(true).build();
     }
 
+    public String generateBearerToken(UserDetailsImpl userPrincipal) {
+        String bearer = generateTokenFromUsername(userPrincipal);
+        return "Bearer " + bearer;
+    }
+
     public ResponseCookie getCleanJwtCookie() {
         return ResponseCookie.from(jwtCookie, null).path("/api").build();
     }

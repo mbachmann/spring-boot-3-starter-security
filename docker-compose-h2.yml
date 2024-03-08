@@ -8,6 +8,7 @@ services:
     restart: always
     environment:
       APP_NAME: Spring-Starter
+      APP_URL: http://localhost:8080
       ACTIVE_PROFILES: dev,h2
       JWT_COOKIE_NAME: starter
       JWT_SHARED_SECRET: secretKey

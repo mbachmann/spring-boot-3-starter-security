@@ -1,10 +1,8 @@
 package com.example.starter;
 
-import com.example.starter.utils.StringUtils;
 import jakarta.annotation.PostConstruct;
 import java.util.Arrays;
 import lombok.AllArgsConstructor;
-import org.aspectj.weaver.Utils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;

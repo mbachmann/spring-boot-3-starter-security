@@ -8,15 +8,16 @@ services:
     restart: always
     environment:
       APP_NAME: Spring-Starter
+      APP_URL: http://localhost:8080
       ACTIVE_PROFILES: dev,postgres
       JWT_COOKIE_NAME: starter
       JWT_SHARED_SECRET: secretKey
       APP_DB_HOST: 192.168.77.102
       APP_DB_PORT: 5432
-      APP_DB_NAME: chall-backend
+      APP_DB_NAME: chall-db-devx
       APP_DB_USERNAME: chall-user
       APP_DB_PASSWORD: someRandomBullshit
-      APP_DB_SCHEMA: pipeline
+      APP_DB_SCHEMA: chall-pipeline
       ALLOWED_ORIGINS: http://localhost:4200, http://localhost:4100, http://localhost:8080
     ports:
       - 8080:8080

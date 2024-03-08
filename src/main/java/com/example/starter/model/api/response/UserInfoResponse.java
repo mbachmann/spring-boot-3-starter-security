@@ -14,5 +14,6 @@ public class UserInfoResponse {
     private Long id;
     private String username;
     private String email;
+    private String bearerToken;
     private List<String> roles;
 }
