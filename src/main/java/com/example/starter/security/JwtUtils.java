@@ -50,6 +50,11 @@ public class JwtUtils  {
         return "Bearer " + bearer;
     }
 
+    public String generateJwtToken(UserDetailsImpl userPrincipal) {
+        return generateTokenFromUsername(userPrincipal);
+
+    }
+
     public ResponseCookie getCleanJwtCookie() {
         return ResponseCookie.from(jwtCookie, null).path("/api").build();
     }
