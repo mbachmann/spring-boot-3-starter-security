@@ -4,6 +4,7 @@ import com.example.starter.utils.StringUtils;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -36,16 +37,20 @@ public final class JwtUtil {
         try {
             rsaFact = KeyFactory.getInstance("RSA");
             RSAPrivateKey key = (RSAPrivateKey) rsaFact.generatePrivate(spec);
-            JwtBuilder builder = Jwts.builder().setId(id)
-                .setIssuedAt(new Date(nowMillis))
-                .setSubject(subject)
-                .setIssuer(issuer)
-                .setExpiration(new Date(nowMillis + DAY_IN_MILLIS))
-                .claim("username", userName)
-                .claim("role", role)
-                .signWith(signatureAlgorithm, key);
-            //Builds the JWT and serializes it to a compact, URL-safe string
-            return builder.compact();
+
+            String jwt = Jwts.builder()
+                    .header().keyId("shared")
+
+                    .and()
+
+                    .subject(subject)
+                    .issuedAt(new Date())
+                    .expiration(new Date((new Date()).getTime() + DAY_IN_MILLIS))
+                    .claim("role", role)
+                    .signWith(signatureAlgorithm, key)
+                    .compact();
+            return jwt;
+
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new IllegalStateException(e);
         }
