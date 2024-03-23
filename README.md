@@ -39,14 +39,30 @@ Create first a jar with the build instruction. To create a container. Replace **
 
 <br/>
 
-```
+For local platform
 
+```
 $  docker build -t uportal/spring-boot-3-starter-security  .
-$  docker buildx build --platform linux/amd64 -t uportal/spring-boot-3-starter-security -f Dockerfile .
-
-
-$  docker run -p 8080:8080 --rm -it  -e ACTIVE_PROFILES=dev,h2 uportal/spring-boot-3-starter-security 
 ```
+
+Windows Intel and target platform
+
+```
+$  docker buildx build --platform linux/amd64 -t uportal/spring-boot-3-starter-security -f Dockerfile .
+```
+
+For Mac or ARM Windows
+
+```
+$  docker buildx build --platform linux/arm64 -t uportal/spring-boot-3-starter-security -f Dockerfile .
+```
+
+Run the image
+
+```
+$  docker run -p 8080:8080 --rm -it  -e ACTIVE_PROFILES=dev,h2 uportal/spring-boot-3-starter-security
+```
+
 
 <br/>
 
@@ -81,7 +97,7 @@ Replace **uportal** with your **dockerhub id**.
 <br/>
 
 ```
-$  docker pull uportal/todo-app
+$  docker pull uportal/spring-boot-3-starter-security 
 ```
 
 <br/>
