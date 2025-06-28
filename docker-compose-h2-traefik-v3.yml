@@ -3,7 +3,7 @@ networks:
     external: true
 
 services:
-  spring-boot-3-starter-security:
+  spring-boot-3-starter-security-h2:
     image: uportal/spring-boot-3-starter-security:latest
     labels:
       - "traefik.enable=true"
