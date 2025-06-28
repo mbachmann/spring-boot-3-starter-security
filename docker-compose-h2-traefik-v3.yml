@@ -1,0 +1,24 @@
+networks:
+  proxy:
+    external: true
+
+services:
+  spring-boot-3-starter-security:
+    image: uportal/spring-boot-3-starter-security:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.todo-h2.rule=Host(`spring-boot-3-starter-security.example.com`)" # change hostname!
+      - "traefik.http.routers.todo-h2.tls=true"
+      - "traefik.http.routers.todo-h2.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.todo-h2.entrypoints=websecure"
+      - "traefik.http.services.todo-h2.loadbalancer.server.port=8080"
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      APP_NAME: Spring-JWT-Starter
+      ACTIVE_PROFILES: dev,h2
+      APP_URL: https://spring-boot-3-starter-security.example.com # change hostname!
+      JWT_COOKIE_NAME: starter
+      JWT_SHARED_SECRET: secretKeyWithAtLeast32Characters
+      ALLOWED_ORIGINS: http://localhost:4000, http://localhost:4200, http://localhost:4100, http://localhost:8080

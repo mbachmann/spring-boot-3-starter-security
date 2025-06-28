@@ -5,20 +5,20 @@ services:
   spring-boot-3-starter-security-pg:
     image: uportal/spring-boot-3-starter-security:latest
 
-    restart: always
+    restart: unless-stopped
     environment:
       APP_NAME: Spring-Starter
       APP_URL: http://localhost:8080
       ACTIVE_PROFILES: dev,postgres
       JWT_COOKIE_NAME: starter
-      JWT_SHARED_SECRET: secretKey
+      JWT_SHARED_SECRET: secretKeyWithAtLeast32Characters
       APP_DB_HOST: 192.168.77.102
       APP_DB_PORT: 5432
-      APP_DB_NAME: chall-db-devx
-      APP_DB_USERNAME: chall-user
-      APP_DB_PASSWORD: someRandomBullshit
-      APP_DB_SCHEMA: chall-pipeline
-      ALLOWED_ORIGINS: http://localhost:4200, http://localhost:4100, http://localhost:8080
+      APP_DB_NAME: jwtstarter
+      APP_DB_USERNAME: jwtstarter
+      APP_DB_PASSWORD: jwtstarter
+      APP_DB_SCHEMA: jwt-starter
+      ALLOWED_ORIGINS: http://localhost:4000, http://localhost:4200, http://localhost:4100, http://localhost:8080
     ports:
       - 8080:8080
     env_file:

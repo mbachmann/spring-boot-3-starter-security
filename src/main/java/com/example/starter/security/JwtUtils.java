@@ -1,10 +1,12 @@
 package com.example.starter.security;
 
 
-
 import com.example.starter.service.UserDetailsImpl;
 import com.example.starter.utils.HasLogger;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.Cookie;
@@ -20,7 +22,6 @@ import org.springframework.web.util.WebUtils;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 @Component

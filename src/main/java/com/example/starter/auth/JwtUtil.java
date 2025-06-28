@@ -1,7 +1,6 @@
 package com.example.starter.auth;
 
 import com.example.starter.utils.StringUtils;
-import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -17,8 +16,8 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Date;
 import java.util.Base64;
+import java.util.Date;
 
 public final class JwtUtil {
     public static final long SECOND_IN_MILLIS = 1000;

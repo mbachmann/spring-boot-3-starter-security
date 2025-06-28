@@ -5,14 +5,14 @@ services:
   spring-boot-3-starter-security-h2:
     image: uportal/spring-boot-3-starter-security:latest
 
-    restart: always
+    restart: unless-stopped
     environment:
-      APP_NAME: Spring-Starter
+      APP_NAME: Spring-JWT-Starter
       APP_URL: http://localhost:8080
       ACTIVE_PROFILES: dev,h2
       JWT_COOKIE_NAME: starter
-      JWT_SHARED_SECRET: secretKey
-      ALLOWED_ORIGINS: http://localhost:4200, http://localhost:4100, http://localhost:8080
+      JWT_SHARED_SECRET: secretKeyWithAtLeast32Characters
+      ALLOWED_ORIGINS: http://localhost:4000, http://localhost:4200, http://localhost:4100, http://localhost:8080
     ports:
       - 8080:8080
     env_file:

@@ -1,0 +1,18 @@
+#
+# Build stage
+#
+FROM maven:3.8.5-openjdk-17 AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -DskipTests -f /home/app/pom.xml clean package
+
+#
+# Package stage
+#
+FROM openjdk:17-jdk-slim
+COPY --from=build /home/app/target/starter-*.jar /usr/local/lib/app.jar
+ARG JVM_OPTS
+ENV JVM_OPTS=${JVM_OPTS}
+# COPY chatapp.keystore.jks /
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "java $JVM_OPTS -jar /usr/local/lib/app.jar"]
