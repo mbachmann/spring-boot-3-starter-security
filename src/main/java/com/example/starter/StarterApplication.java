@@ -32,6 +32,8 @@ public class StarterApplication {
         String actuatorInfo="" +
                 appUrl + "/actuator/info"  + System.lineSeparator() +
                 appUrl + "/actuator/health"  + System.lineSeparator() +
+                appUrl + "/actuator/health/readiness"  + System.lineSeparator() +
+                appUrl + "/actuator/health/liveness"  + System.lineSeparator() +
                 "";
         if (hasDevProfile) {
             openApiInfo = "" +

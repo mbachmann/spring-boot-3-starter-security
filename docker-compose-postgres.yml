@@ -12,7 +12,7 @@ services:
       ACTIVE_PROFILES: dev,postgres
       JWT_COOKIE_NAME: starter
       JWT_SHARED_SECRET: secretKeyWithAtLeast32Characters
-      APP_DB_HOST: 192.168.77.102
+      APP_DB_HOST: 192.168.77.102 # Change this to your PostgreSQL host
       APP_DB_PORT: 5432
       APP_DB_NAME: jwtstarter
       APP_DB_USERNAME: jwtstarter
@@ -22,4 +22,4 @@ services:
     ports:
       - 8080:8080
     env_file:
-      - ./starter.env
+      - ./starter.env # Optional: Use an env file for sensitive data
