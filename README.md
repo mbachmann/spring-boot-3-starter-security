@@ -1,4 +1,4 @@
-# Spring Boot 3.2 + JPA + Auth JWT
+# Spring Boot 3.5.x + JPA + Auth JWT
 
 - Backend:  https://github.com/mbachmann/spring-boot-3-starter-security.git
 - Frontend: https://github.com/mbachmann/angular-20-jwt-auth-starter-standalone.git
